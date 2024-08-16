@@ -1,9 +1,9 @@
 import React, {useEffect,useState} from 'react'
-import {card, Loader, formFeild} from '../components';
+import {Card, Loader, FormFeild} from '../components';
 
 const RenderCards = ({data, title}) => {
   if(data?.length > 0 ){
-    return data.map((post) => <card key={post.id} {...post} />)
+    return data.map((post) => <Card key={post._id} {...post} />)
   }
   return (
     <h2 className='mt-5 font-bold text-[#6449ff] text-xl uppercase'>{title}</h2>
