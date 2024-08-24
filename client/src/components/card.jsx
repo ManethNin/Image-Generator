@@ -3,6 +3,9 @@ import { download } from '../assets'
 import { downloadPhoto } from '../utils'
 
 const Card = ({_id, name, prompt, photo}) => {
+
+  const token = localStorage.getItem("user")
+  const user = JSON.parse(token)
   return (
     <div className="rounded-xl group relative shadow-card hover:shadow-cardhover card">
       <img className="w-full h-auto object-cover rounded-xl" src={photo} alt={prompt} />
@@ -16,6 +19,11 @@ const Card = ({_id, name, prompt, photo}) => {
           <p className="text-white text-sm">{name}</p>
 
         </div>
+        {/* {console.log(user.name)} */}
+        {(user?.name === name) && (
+        <button className='w-1/12 flex justify-center py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-500 bg-white hover:text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+          Delete
+        </button>)}
         <button type="button" onClick={()=>downloadPhoto(_id,photo)} className="outline-none bg-transparent border-none">
           <img src={download} alt="download" className='w-6 h-6 object-contain invert'/>
         </button>

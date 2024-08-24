@@ -13,7 +13,7 @@ router.route("/").post(async (req,res) => {
         const {name, password, email, isUser} = req.body
         console.log(isUser)
         if(!isUser){
-            const user = await User.findOne({email})
+            let user = await User.findOne({email})
             if(user){
                 console.log("User already exist")
                 return res.status(400).json({message:"User already exists"})  
@@ -21,9 +21,9 @@ router.route("/").post(async (req,res) => {
             
             const hashPassword = await bcrypt.hash(password,10)
 
-            const register = await User.create({email:email, password:hashPassword, name:name})
+            user = await User.create({email:email, password:hashPassword, name:name})
             const token = jwt.sign({email: register.email, id: register._id}, "key", {expiresIn: "1h"})
-            return res.status(200).json({register,token})
+            return res.status(200).json({user,token})
         }
         
         const user = await User.findOne({email})

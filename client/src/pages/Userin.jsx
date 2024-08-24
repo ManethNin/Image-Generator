@@ -38,7 +38,7 @@ const Userin = () => {
                 localStorage.setItem('token', data.token)
                 // console.log("data - ",data);
                 // console.log("meeeee",(data.register));
-                localStorage.setItem('user', JSON.stringify(data.register));
+                localStorage.setItem('user', JSON.stringify(data.user));
                 navigate(`/userin/create-post`)
                 
             }
