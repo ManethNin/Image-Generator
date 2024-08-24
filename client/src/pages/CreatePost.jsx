@@ -1,13 +1,15 @@
-import React,{useState} from 'react'
+import React,{useEffect, useMemo, useState} from 'react'
 import {FormFeild, Loader} from '../components';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { preview } from '../assets';
 import { getRandomPrompt } from '../utils';
 
+
 const CreatePost = () => {
-  const navigate = useNavigate(); 
+  const token = localStorage.getItem('token')
+  // console.log("Received token:", token);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: '',
     prompt: '',
     photo: '',
   });
@@ -21,7 +23,7 @@ const CreatePost = () => {
         setGebneratingImg(true);
         const response =  await fetch("http://localhost:8080/api/v1/dalle",{
           method:'POST',
-          headers :{ 'Content-Type': 'application/json',},
+          headers :{ 'Content-Type': 'application/json','Authorization': `Bearer ${token}`},
           body :JSON.stringify({
             prompt:form.prompt,
           }),
@@ -57,13 +59,14 @@ const CreatePost = () => {
             method : "POST",
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({...form})
           }
         )
         await response.json()
-        alert("Success")
-        navigate("/")
+        // alert("Success")
+        navigate(`/`)
         
       } catch (error) {
         alert(error)
@@ -82,24 +85,30 @@ const CreatePost = () => {
     console.log(form)
   }
 
+  let user = useMemo(() => {
+    return JSON.parse(localStorage.getItem("user"))
+  }, [])
+
   return (
   <section className='max-w-7xl mx-auto'>
     <div>
-        <h1 className="font-extrabold text-[#222328] text-[32px]">Create Image</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Create imaginative and visually stunning images through DALL-E AI and share</p>
+        <h1 className="font-extrabold text-white text-[32px]">Create Image</h1>
+        <p className="mt-2 text-gray-800 text-[14px] w-full">Create imaginative and visually stunning images through DALL-E AI and share</p>
 
       </div>
 
-      <form className ='mt-16 max-w-3x1' onSubmit={handleSubmit}>
+      <form className ='mt-10 max-w-3x1' onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
-        <FormFeild 
+        {/* <FormFeild 
         labelName = "Your name"
         type = "text"
         name = "name"
         placeholder = "Enter your name"
         value = {form.name}
         handleChange = {handleChange}
-        />
+        /> */}
+        <p className='text-white text-lg' >Welcome {user?.name} !</p>
+        
 
         <FormFeild 
         labelName = "Prompt"
@@ -137,7 +146,7 @@ const CreatePost = () => {
           </button>
         </div>
         <div className='mt-10'>
-          <p className='mt-2 text-[#666e75] text-[14px]'>Wanna share it with others ? </p>
+          <p className='mt-2 text-white text-[14px]'>Wanna share it with others ? </p>
           <button type='submit'
           className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-2/12 px-5 py-2.5 text-center"  //sm:w-auto
 >

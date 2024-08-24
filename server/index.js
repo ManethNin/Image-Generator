@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./mongodb/connect.js";
 import dalleRoutes from "./routes/dalleRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 
 dotenv.config(); //Load environment variables from .env file
 
@@ -13,6 +14,7 @@ app.use(express.json({limit: '50mb'}));
 
 app.use("/api/v1/post", postRoutes)
 app.use("/api/v1/dalle", dalleRoutes)
+app.use("/api/v1/userin",userRoutes)
 
 app.get("/", async (req, res) => {
   res.send("Hello World!");

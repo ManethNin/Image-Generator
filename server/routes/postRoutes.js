@@ -2,6 +2,7 @@ import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
 import {v2 as cloudinary} from 'cloudinary'
+import auth from "../middleware/auth.js"
 
 import Post from "../mongodb/models/post.js"
 
@@ -25,19 +26,24 @@ router.route('/').get(async (req, res) => {
   });
 
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(auth, async (req, res) => {
   try {
-    const { name, prompt, photo } = req.body;
+    const { prompt, photo } = req.body;
     const photoUrl = await cloudinary.uploader.upload(photo);
+ 
+    console.log("post uploaded successfully...")
 
     const newPost = await Post.create({
-      name,
+      name:req.auth.name,
       prompt,
       photo: photoUrl.url,
     });
 
+    console.log(newPost)
+
     res.status(200).json({ success: true, data: newPost });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, message: 'Unable to create a post, please try again' });
   }
 });
