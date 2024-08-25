@@ -4,9 +4,32 @@ import { downloadPhoto } from '../utils'
 
 const Card = ({_id, name, prompt, photo}) => {
 
-  const token = localStorage.getItem("user")
-  const user = JSON.parse(token)
+  const token = localStorage.getItem("token")
+  const userString = localStorage.getItem("user")
+  const user = JSON.parse(userString)
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/v1',
+        {
+          method: "DELETE",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`},
+          body: JSON.stringify({postId: _id}),
+        }
+      )
+      if(response.ok){
+        location.reload()
+      }
+
+      console.log("res",response)
+    } catch (error) {
+      console.log("delete error ",error)
+    }
+  }
   return (
+    
     <div className="rounded-xl group relative shadow-card hover:shadow-cardhover card">
       <img className="w-full h-auto object-cover rounded-xl" src={photo} alt={prompt} />
       <div className="group-hover:flex flex-col max-h-[94.5%] hidden absolute bottom-0 left-0 right-0 bg-[#10131f] m-2 p-4 rounded-md">
@@ -21,7 +44,7 @@ const Card = ({_id, name, prompt, photo}) => {
         </div>
         {/* {console.log(user.name)} */}
         {(user?.name === name) && (
-        <button className='w-1/12 flex justify-center py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-500 bg-white hover:text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+        <button onClick={handleDelete} className='w-1/12 flex justify-center py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-500 bg-white hover:text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
           Delete
         </button>)}
         <button type="button" onClick={()=>downloadPhoto(_id,photo)} className="outline-none bg-transparent border-none">

@@ -5,6 +5,8 @@ import connectDB from "./mongodb/connect.js";
 import dalleRoutes from "./routes/dalleRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
+import auth from "./middleware/auth.js"
+import PostSchema from "./mongodb/models/post.js";
 
 dotenv.config(); //Load environment variables from .env file
 
@@ -19,6 +21,26 @@ app.use("/api/v1/userin",userRoutes)
 app.get("/", async (req, res) => {
   res.send("Hello World!");
 });
+
+app.delete("/api/v1",auth,async(req,res) =>{
+  console.log("HIkkh")
+  try {
+    // console.log("HI")
+    const response = await PostSchema.findByIdAndDelete(req.body.postId)
+    // console.log(req.userId)
+    if(response){
+      console.log(response)
+      res.status(200).json({ message: "Post deleted successfully", response });
+      } else {
+      res.status(404).json({ message: "Post not found" });
+  }
+}
+   catch (error) {
+    console.log("err",error)
+    
+  }
+  
+})
 
 const startServer = async () => {
 

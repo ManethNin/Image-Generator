@@ -23,6 +23,7 @@ router.route("/").post(async (req,res) => {
 
             user = await User.create({email:email, password:hashPassword, name:name})
             const token = jwt.sign({email: register.email, id: register._id}, "key", {expiresIn: "1h"})
+            console.log("sign in",token)
             return res.status(200).json({user,token})
         }
         
@@ -38,6 +39,7 @@ router.route("/").post(async (req,res) => {
         if(!isPasswordCorrect) return res.status(400).json({message:"Invalid password"})
 
         const token = jwt.sign({email:user.email, id: user._id, name: user.name, created_at: Date.now()}, "key", {expiresIn:"1h"})
+        console.log("sign in",token)
         return res.status(200).json({user,token})
     } catch (error) {
         res.status(500).json({message:"Error"})

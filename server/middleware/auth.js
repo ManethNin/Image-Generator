@@ -3,13 +3,14 @@ import jwt from "jsonwebtoken";
 const secret = "key"
 
 const auth = async (req,res,next) => {
+    console.log("Auth middleware")
     try {
         if(!req.headers.authorization){
             return res.status(401).json({message:"Unauthorized"})
         }
 
         const token = req.headers.authorization.split(" ")[1]
-        // console.log("Received token:", token);
+        console.log("Received token:", token);
         const decodedData = jwt.verify(token, secret)
         
         req.userId = decodedData?.id
