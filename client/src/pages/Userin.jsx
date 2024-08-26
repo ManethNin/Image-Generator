@@ -23,7 +23,7 @@ const Userin = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(form)
+        // console.log(form,"kkkkk")
         try {
             const response = await fetch(`http://${window.location.hostname}:8080/api/v1/userin`,
                 {
@@ -34,13 +34,17 @@ const Userin = () => {
             )
             if(response.ok){
                 const data = await response.json(); // Parse the JSON data
-                // console.log("Login/Register successful:", data.token);
+                console.log("Login/Register successful:", data.token);
                 localStorage.setItem('token', data.token)
                 // console.log("data - ",data);
                 // console.log("meeeee",(data.register));
                 localStorage.setItem('user', JSON.stringify(data.user));
                 navigate(`/userin/create-post`)
                 
+            }
+            else{
+                alert((await response.json()).message)
+                window.location.reload()
             }
             
             // console.log(response)
