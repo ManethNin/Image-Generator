@@ -1,4 +1,4 @@
-import Card from './Card';
+import Card from './ImageCard';
 import FormFeild from './FormFeild';
 import Loader from './Loader';
 
