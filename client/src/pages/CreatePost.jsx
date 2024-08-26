@@ -21,7 +21,7 @@ const CreatePost = () => {
     if(form.prompt) {
       try {
         setGebneratingImg(true);
-        const response =  await fetch("http://localhost:8080/api/v1/dalle",{
+        const response =  await fetch(`http://${window.location.hostname}:8080/api/v1/dalle`,{
           method:'POST',
           headers :{ 'Content-Type': 'application/json','Authorization': `Bearer ${token}`},
           body :JSON.stringify({
@@ -54,7 +54,7 @@ const CreatePost = () => {
     if(form.photo && form.prompt){
       setLoading(true)
       try {
-        const response = await fetch("http://localhost:8080/api/v1/post",
+        const response = await fetch(`http://${window.location.hostname}:8080/api/v1/post`,
           {
             method : "POST",
             headers: {

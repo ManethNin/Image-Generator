@@ -25,7 +25,7 @@ const Userin = () => {
         e.preventDefault()
         console.log(form)
         try {
-            const response = await fetch("http://localhost:8080/api/v1/userin",
+            const response = await fetch(`http://${window.location.hostname}:8080/api/v1/userin`,
                 {
                     method:"POST",
                     headers:{'Content-Type': 'application/json'},
