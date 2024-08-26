@@ -1,0 +1,30 @@
+name: Deploy
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:       
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER_NAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd /home/ubuntu/Image-Generator
+          git pull origin main
+          git status
+          cd /home/ubuntu/Image-Generator/server && npm install
+          cd /home/ubuntu/Image-Generator/client && npm install
+          sudo pm2 stop all
+          sudo pm2 delete all
+          cd /home/ubuntu/Image-Generator/server
+          sudo pm2 start index.js
+          cd /home/ubuntu/Image-Generator/client && npm run build
+          sudo pm2 start npm -- start 
