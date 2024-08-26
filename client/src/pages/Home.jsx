@@ -107,7 +107,7 @@ const Home = () => {
   
         </div>
         <p className="mt-2 text-[#666e75] text-gray-700 w-full">
-          Join us to generate your own images...
+          jJoin us to generate your own images...
         </p>
       </div>
 
