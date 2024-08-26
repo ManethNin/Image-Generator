@@ -20,7 +20,8 @@ jobs:
           cd /home/ubuntu/Image-Generator
           git pull origin main
           git status
-          cd /home/ubuntu/Image-Generator && npm install
+          cd /home/ubuntu/Image-Generator/server && npm install
+          cd /home/ubuntu/Image-Generator/client && npm install
           sudo pm2 stop all
           sudo pm2 delete all
           cd /home/ubuntu/Image-Generator/server
