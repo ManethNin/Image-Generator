@@ -13,6 +13,7 @@ const CreatePost = () => {
     prompt: '',
     photo: '',
   });
+
   
   const [loading, setLoading] = useState(false);
   const [generatingImg, setGebneratingImg] = useState(false);

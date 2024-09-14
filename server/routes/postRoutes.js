@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import {v2 as cloudinary} from 'cloudinary'
 import auth from "../middleware/auth.js"
-
 import Post from "../mongodb/models/post.js"
 
 dotenv.config()

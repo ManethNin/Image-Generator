@@ -39,7 +39,6 @@ app.delete("/api/v1",auth,async(req,res) =>{
     console.log("err",error)
     
   }
-  
 })
 
 const startServer = async () => {
