@@ -6,13 +6,10 @@ import { useNavigate } from 'react-router-dom'
 
 const initialValues = {name:"" , email:"", password:"", confirmPassword:""}
 const Userin = () => {
-
     const navigate = useNavigate();
     const [form, setForm] = useState(initialValues)
     const [isUser, SetUser] = useState(true)
-    const [formErrors, setFormErrors]= useState({})
-    // const [isSubmit,setIsSubmit] = useState(false)
-      
+    const [formErrors, setFormErrors]= useState({})      
 
     useEffect(()=>{
         setForm(initialValues)
@@ -21,14 +18,12 @@ const Userin = () => {
     const handleChange = (e) =>{
         setForm({...form, 
             [e.target.name] : e.target.value})
-    
     }
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validate(form);
         setFormErrors(errors);
-        // setIsSubmit(true);
         if (Object.keys(errors).length === 0) {
             try {
                 const response = await fetch(`http://${window.location.hostname}:8080/api/v1/userin`,
@@ -39,11 +34,8 @@ const Userin = () => {
                     }
                 )
                 if(response.ok){
-                    const data = await response.json(); // Parse the JSON data
-                    // console.log("Login/Register successful:", data.token);
+                    const data = await response.json();
                     localStorage.setItem('token', data.token)
-                    // console.log("data - ",data);
-                    // console.log("meeeee",(data.register));
                     localStorage.setItem('user', JSON.stringify(data.user));
                     navigate(`/userin/create-post`)
                     
@@ -52,54 +44,38 @@ const Userin = () => {
                     alert((await response.json()).message)
                     window.location.reload()
                 }
-                
-                // console.log(response)
-    
+                    
                 
             } catch (error) {
                 console.log("oops")
                 alert(error)
             }
           }
-      };
+    };
 
-      const validate = (values) => {
-        const errors = {};
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-        if (!values.name) {
-          errors.name = "name is required!";
-        }
-        if (!values.email) {
-          errors.email = "Email is required!";
-        } else if (!regex.test(values.email)) {
-          errors.email = "This is not a valid email format!";
-        }
-        if (!values.password) {
-          errors.password = "Password is required";
-        } else if (values.password.length < 4) {
-          errors.password = "Password must be more than 4 characters";
-        } else if (values.password.length > 10) {
-          errors.password = "Password cannot exceed more than 10 characters";
-        }
-        if(values.password != values.confirmPassword){
-            errors.confirmPassword = "Passwords doesn't match";
-        }
-        return errors;
-      };
-    
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault()
-    //     setisSubmit(true)
-    //     setFormError({})
-    //     if(!form.email){
-    //         setFormError(...formError, email="Can't keep empty")
-    //         console.log("fuck")
-    //     }
-        // console.log("huuu",e)
-
-       
-    // }
+    const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.name) {
+        errors.name = "name is required!";
+    }
+    if (!values.email) {
+        errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+        errors.email = "This is not a valid email format!";
+    }
+    if (!values.password) {
+        errors.password = "Password is required";
+    } else if (values.password.length < 2) {
+        errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+        errors.password = "Password cannot exceed more than 10 characters";
+    }
+    if(values.password != values.confirmPassword){
+        errors.confirmPassword = "Passwords doesn't match";
+    }
+    return errors;
+    };
 
   return (
 <div className=" flex items-center justify-center w-full">
