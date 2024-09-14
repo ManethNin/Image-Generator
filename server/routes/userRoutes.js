@@ -28,7 +28,7 @@ router.route("/").post(async (req,res) => {
         }
         
         const user = await User.findOne({email})
-
+        console.log("wtf")
         if(!user){
             console.log("User doesn't exist")
             return res.status(404).json({message:"User doesn't exist"})

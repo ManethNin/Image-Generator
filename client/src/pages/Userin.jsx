@@ -23,8 +23,12 @@ const Userin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validate(form);
+        // console.log(Object.keys)
         setFormErrors(errors);
+        console.log(Object.keys(errors))
+        
         if (Object.keys(errors).length === 0) {
+            console.log(Object.keys(errors))
             try {
                 const response = await fetch(`http://${window.location.hostname}:8080/api/v1/userin`,
                     {
@@ -33,6 +37,7 @@ const Userin = () => {
                         body: JSON.stringify({...form, isUser})
                     }
                 )
+                
                 if(response.ok){
                     const data = await response.json();
                     localStorage.setItem('token', data.token)
@@ -57,7 +62,9 @@ const Userin = () => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!values.name) {
-        errors.name = "name is required!";
+        if(!isUser){
+            errors.name = "name is required!";
+        }
     }
     if (!values.email) {
         errors.email = "Email is required!";
@@ -72,7 +79,9 @@ const Userin = () => {
         errors.password = "Password cannot exceed more than 10 characters";
     }
     if(values.password != values.confirmPassword){
-        errors.confirmPassword = "Passwords doesn't match";
+        if(!isUser){
+            errors.confirmPassword = "Passwords doesn't match";
+        }
     }
     return errors;
     };
