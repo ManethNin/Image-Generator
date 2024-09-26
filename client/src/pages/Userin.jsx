@@ -12,6 +12,7 @@ const Userin = () => {
     const [formErrors, setFormErrors]= useState({})      
 
     useEffect(()=>{
+        // window.location.reload()
         setForm(initialValues)
     }, [isUser])
     
@@ -59,31 +60,31 @@ const Userin = () => {
     };
 
     const validate = (values) => {
-    const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.name) {
-        if(!isUser){
-            errors.name = "name is required!";
+        const errors = {};
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+        if (!values.name) {
+            if(!isUser){
+                errors.name = "name is required!";
+            }
         }
-    }
-    if (!values.email) {
-        errors.email = "Email is required!";
-    } else if (!regex.test(values.email)) {
-        errors.email = "This is not a valid email format!";
-    }
-    if (!values.password) {
-        errors.password = "Password is required";
-    } else if (values.password.length < 2) {
-        errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-        errors.password = "Password cannot exceed more than 10 characters";
-    }
-    if(values.password != values.confirmPassword){
-        if(!isUser){
-            errors.confirmPassword = "Passwords doesn't match";
+        if (!values.email) {
+            errors.email = "Email is required!";
+        } else if (!regex.test(values.email)) {
+            errors.email = "This is not a valid email format!";
         }
-    }
-    return errors;
+        if (!values.password) {
+            errors.password = "Password is required";
+        } else if (values.password.length < 2) {
+            errors.password = "Password must be more than 4 characters";
+        } else if (values.password.length > 10) {
+            errors.password = "Password cannot exceed more than 10 characters";
+        }
+        if(values.password != values.confirmPassword){
+            if(!isUser){
+                errors.confirmPassword = "Passwords doesn't match";
+            }
+        }
+        return errors;
     };
 
   return (
