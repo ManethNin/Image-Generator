@@ -12,7 +12,7 @@ const Userin = () => {
     const [formErrors, setFormErrors]= useState({})      
 
     useEffect(()=>{
-        window.location.reload()
+        // window.location.reload()
         setForm(initialValues)
     }, [isUser])
     
